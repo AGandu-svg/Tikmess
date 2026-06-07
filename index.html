@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play & Earn - Telegram Mini App</title>
+    <!-- የAdsgram ማስታወቂያ ስክሪፕት -->
+    <script src="https://sad.adsgram.ai/js/advs.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .app-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        p {
+            font-size: 14px;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+        }
+        .balance-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .balance-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffb74d;
+        }
+        .balance-amount {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 5px;
+            color: #4caf50;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        .btn-watch {
+            background: linear-gradient(90deg, #4caf50, #81c784);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-watch:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+        }
+        .footer-note {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #b0bec5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1>ይጫወቱ እና ይስሩ!</h1>
+        <p>ማስታወቂያዎችን በመመልከት እውነተኛ ዶላር ያከማቹ</p>
+
+        <!-- የባላንስ ማሳያ ሳጥን -->
+        <div class="balance-card">
+            <div class="balance-label">የእርስዎ አጠቃላይ ገቢ</div>
+            <div class="balance-amount">$<span id="user-balance">0.00</span></div>
+        </div>
+
+        <!-- ማስታወቂያ የሚያስጀምረው ቁልፍ -->
+        <button class="btn-watch" id="watch-ad-btn">🎬 ማስታወቂያ እይ</button>
+
+        <div class="footer-note">
+            የ Adsgram ማስታወቂያ ኔትወርክ አጋር
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ ማሳሰቢያ፦ "የእርስዎ_Block_ID_ቁጥር" የሚለውን አጥፍተው ከAdsgram ያገኙትን ቁጥር ብቻ ያስገቡ (ለምሳሌ: "1234")
+        // ለፈተና ያህል debug: true ተጨምሯል። ወደ ስራ ሲገቡ debug: true የሚለውን ያጥፉት።
+        const AdController = window.Adsgram.init({ 
+            blockId: "የእርስዎ_Block_ID_ቁጥር", 
+            debug: true 
+        });
+
+        // የተጠቃሚው መነሻ ባላንስ
+        let balance = 0.00;
+
+        // ቁልፉ ሲጫን ማስታወቂያ የመክፈት ስራ
+        document.getElementById('watch-ad-btn').addEventListener('click', () => {
+            
+            // ማስታወቂያውን አሳይ
+            AdController.show().then((result) => {
+                // ተጠቃሚው ማስታወቂያውን በስኬት አይቶ ሲጨርስ ይህ ይረጋገጣል
+                balance += 0.05; // ለእያንዳንዱ ማስታወቂያ 0.05 ዶላር ጨምር
+                document.getElementById('user-balance').innerText = balance.toFixed(2);
+                alert("🎉 እንኳን ደስ አለዎት! 0.05 ዶላር ወደ አካውንትዎ ተጨምሯል።");
+                
+            }).catch((result) => {
+                // ማስታወቂያው ሳይጨርስ ከተዘጋ ወይም ስህተት ከተፈጠረ
+                alert("⚠️ ማስታወቂያው አልተጠናቀቀም! እባክዎ እስከመጨረሻው ይመልከቱ።");
+            });
+            
+        });
+    </script>
+
+</body>
+</html>
